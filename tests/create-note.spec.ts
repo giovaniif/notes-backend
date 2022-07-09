@@ -35,4 +35,13 @@ describe('Create Note', () => {
 
     expect(createNoteRepository.create).toHaveBeenCalledWith({ title, content })
   })
+
+  it('should throw if repository throws', async () => {
+    const error = new Error('repository_error')
+    createNoteRepository.create.mockRejectedValueOnce(error)
+
+    const promise = sut({ title, content })
+
+    await expect(promise).rejects.toThrow(error)
+  })
 })
