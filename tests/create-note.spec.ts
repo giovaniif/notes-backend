@@ -1,20 +1,6 @@
 import { mock, MockProxy } from "jest-mock-extended"
-
-namespace CreateNoteRepository {
-  export type Input = { title: string, content: string }
-  export type Output = { title: string, content: string, id: string }
-}
-interface CreateNoteRepository {
-  create: (input: CreateNoteRepository.Input) => Promise<CreateNoteRepository.Output>
-}
-type Input = { title: string, content: string }
-type Output = { title: string, content: string, id: string }
-type CreateNote = (input: Input) => Promise<Output>
-const setupCreateNote = (createNoteRepository: CreateNoteRepository): CreateNote => {
-  return async ({ content, title }) => {
-    return await createNoteRepository.create({ content, title })
-  }
-}
+import { CreateNoteRepository } from "@/create-note-repository"
+import { setupCreateNote, CreateNote } from '@/create-note'
 
 describe('Create Note', () => {
   let sut: CreateNote
