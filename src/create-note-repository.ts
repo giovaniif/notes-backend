@@ -1,6 +1,8 @@
+import { Note } from "./note"
+
 export namespace CreateNoteRepository {
   export type Input = { title: string, content: string }
-  export type Output = { title: string, content: string, id: string }
+  export type Output = Note 
 }
 
 export interface CreateNoteRepository {
