@@ -39,7 +39,14 @@ describe('Edit Note', () => {
     await expect(promise).rejects.toThrow(new NoteNotFoundError())
   })
 
-  it.skip('should rethrow if loadNoteById throws', async () => {})
+  it('should rethrow if loadNoteById throws', async () => {
+    const error = new Error('any_load_error')
+    loadNoteByIdRepository.loadById.mockRejectedValueOnce(error)
+
+    const promise = sut({ content, noteId })
+
+    await expect(promise).rejects.toThrow(error)
+  })
 
   it.skip('should call updateNoteContentRepository with correct id and content', async () => {})
 
