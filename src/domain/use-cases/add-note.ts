@@ -1,5 +1,5 @@
 import { AddNoteRepository } from '../../add-note-repository'
-import { Note } from '../../note'
+import { Note } from '../models/note'
 
 type Input = { title: string, content: string }
 type Output = Note 

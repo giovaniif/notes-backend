@@ -1,4 +1,4 @@
-import { Note } from "./note"
+import { Note } from "./domain/models/note"
 
 export namespace LoadNoteByIdRepository {
   export type Input = { id: string }

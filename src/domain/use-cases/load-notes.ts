@@ -1,5 +1,5 @@
 import { LoadNotesRepository } from "../../load-notes-repository"
-import { Note } from "../../note"
+import { Note } from "../models/note"
 
 type Output = Note[]
 export type LoadNotes = () => Promise<Output>
