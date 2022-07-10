@@ -12,15 +12,18 @@ describe('Edit Note', () => {
   let updateNoteContentByIdRepository: MockProxy<UpdateNoteContentByIdRepository>
   let noteId: string
   let content: string
+  let newContent: string
   let title: string
 
   beforeAll(() => {
     noteId = 'any_id'
     content = 'any_content'
+    newContent = 'new_content'
     title = 'any_title'
     loadNoteByIdRepository = mock()
     loadNoteByIdRepository.loadById.mockResolvedValue({ id: noteId, content, title })
     updateNoteContentByIdRepository = mock()
+    updateNoteContentByIdRepository.updateContentById.mockResolvedValue({ id: noteId, content: newContent, title })
   })
 
   beforeEach(() => {
@@ -28,7 +31,7 @@ describe('Edit Note', () => {
   })
 
   it('should call loadNoteByIdRepository with correct id', async () => {
-    await sut({ content, noteId })
+    await sut({ newContent, noteId })
 
     expect(loadNoteByIdRepository.loadById).toHaveBeenCalledWith({ id: noteId })
     expect(loadNoteByIdRepository.loadById).toHaveBeenCalledTimes(1)
@@ -37,7 +40,7 @@ describe('Edit Note', () => {
   it('should throw NoteNotFound error if repository returns undefined', async () => {
     loadNoteByIdRepository.loadById.mockResolvedValueOnce(undefined)
 
-    const promise =  sut({ content, noteId })
+    const promise =  sut({ newContent, noteId })
 
     await expect(promise).rejects.toThrow(new NoteNotFoundError())
   })
@@ -46,15 +49,15 @@ describe('Edit Note', () => {
     const error = new Error('any_load_error')
     loadNoteByIdRepository.loadById.mockRejectedValueOnce(error)
 
-    const promise = sut({ content, noteId })
+    const promise = sut({ newContent, noteId })
 
     await expect(promise).rejects.toThrow(error)
   })
 
   it('should call updateNoteContentByIdRepository with correct id and content', async () => {
-    await sut({ content, noteId })
+    await sut({ newContent, noteId })
 
-    expect(updateNoteContentByIdRepository.updateContentById).toHaveBeenCalledWith({ newContent: content, id: noteId })
+    expect(updateNoteContentByIdRepository.updateContentById).toHaveBeenCalledWith({ newContent, id: noteId })
     expect(updateNoteContentByIdRepository.updateContentById).toHaveBeenCalledTimes(1)
   })
 
@@ -62,10 +65,14 @@ describe('Edit Note', () => {
     const error = new Error('any_update_error')
     updateNoteContentByIdRepository.updateContentById.mockRejectedValueOnce(error)
 
-    const promise = sut({ content, noteId })
+    const promise = sut({ newContent, noteId })
 
     await expect(promise).rejects.toThrow(error)
   })
 
-  it.skip('should return the updated note', async () => {})
+  it('should return the updated note', async () => {
+    const note = await sut({ newContent, noteId })
+
+    expect(note).toEqual({ title, content: newContent, id: noteId })
+  })
 })
