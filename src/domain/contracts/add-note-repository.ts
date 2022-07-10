@@ -1,4 +1,4 @@
-import { Note } from "./domain/models/note"
+import { Note } from '@/domain/models'
 
 export namespace AddNoteRepository {
   export type Input = { title: string, content: string }

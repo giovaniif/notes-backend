@@ -1,8 +1,8 @@
-import { mock, MockProxy } from "jest-mock-extended"
+import { mock, MockProxy } from 'jest-mock-extended'
 
-import { setupLoadNotes, LoadNotes } from '@/domain/use-cases/load-notes'
-import { LoadNotesRepository } from '@/load-notes-repository'
-import { Note } from '@/domain/models/note'
+import { setupLoadNotes, LoadNotes } from '@/domain/use-cases'
+import { LoadNotesRepository } from '@/domain/contracts'
+import { Note } from '@/domain/models'
 
 describe('load notes', () => {
   let sut: LoadNotes

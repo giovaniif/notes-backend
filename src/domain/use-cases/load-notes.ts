@@ -1,6 +1,7 @@
-import { LoadNotesRepository } from "../../load-notes-repository"
-import { Note } from "../models/note"
+import { LoadNotesRepository } from '@/domain/contracts'
+import { Note } from '@/domain/models'
 
+type Setup = (LoadNotesRepository: LoadNotesRepository) => LoadNotes
 type Output = Note[]
 export type LoadNotes = () => Promise<Output>
-export const setupLoadNotes = (loadNotesRepository: LoadNotesRepository): LoadNotes => async () => await loadNotesRepository.load()
+export const setupLoadNotes: Setup = (loadNotesRepository): LoadNotes => async () => await loadNotesRepository.load()

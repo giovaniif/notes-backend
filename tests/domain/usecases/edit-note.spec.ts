@@ -1,9 +1,8 @@
-import { mock, MockProxy } from "jest-mock-extended"
+import { mock, MockProxy } from 'jest-mock-extended'
 
-import { EditNote, setupEditNote } from "@/domain/use-cases/edit-note"
-import { LoadNoteByIdRepository } from "@/load-note-by-id-repository"
-import { NoteNotFoundError } from "@/note-not-found-error"
-import { UpdateNoteContentByIdRepository } from "@/update-note-content-by-id-repository"
+import { EditNote, setupEditNote } from '@/domain/use-cases'
+import { LoadNoteByIdRepository, UpdateNoteContentByIdRepository  } from '@/domain/contracts'
+import { NoteNotFoundError } from '@/domain/errors'
 
 
 describe('Edit Note', () => {

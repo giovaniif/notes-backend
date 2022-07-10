@@ -1,7 +1,6 @@
-import { LoadNoteByIdRepository } from "../../load-note-by-id-repository"
-import { Note } from "../models/note"
-import { NoteNotFoundError } from "../../note-not-found-error"
-import { UpdateNoteContentByIdRepository } from "../../update-note-content-by-id-repository"
+import { LoadNoteByIdRepository, UpdateNoteContentByIdRepository } from '@/domain/contracts'
+import { Note } from '@/domain/models'
+import { NoteNotFoundError } from '@/domain/errors'
 
 type Setup = (loadNoteByIdRepository: LoadNoteByIdRepository, updateNoteContentByIdRepository: UpdateNoteContentByIdRepository) => EditNote
 type Input = { noteId: string, newContent: string }
