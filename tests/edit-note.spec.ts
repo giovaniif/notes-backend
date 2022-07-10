@@ -2,6 +2,7 @@ import { mock, MockProxy } from "jest-mock-extended"
 
 import { EditNote, setupEditNote } from "@/edit-note"
 import { LoadNoteByIdRepository } from "@/load-note-by-id-repository"
+import { NoteNotFoundError } from "@/note-not-found-error"
 
 
 describe('Edit Note', () => {
@@ -9,11 +10,14 @@ describe('Edit Note', () => {
   let loadNoteByIdRepository: MockProxy<LoadNoteByIdRepository>
   let noteId: string
   let content: string
+  let title: string
 
   beforeAll(() => {
     noteId = 'any_id'
     content = 'any_content'
+    title = 'any_title'
     loadNoteByIdRepository = mock()
+    loadNoteByIdRepository.loadById.mockResolvedValue({ id: noteId, content, title })
   })
 
   beforeEach(() => {
@@ -27,7 +31,13 @@ describe('Edit Note', () => {
     expect(loadNoteByIdRepository.loadById).toHaveBeenCalledTimes(1)
   })
 
-  it.skip('should throw NoteNotFound error if repository returns undefined', async () => {})
+  it('should throw NoteNotFound error if repository returns undefined', async () => {
+    loadNoteByIdRepository.loadById.mockResolvedValueOnce(undefined)
+
+    const promise =  sut({ content, noteId })
+
+    await expect(promise).rejects.toThrow(new NoteNotFoundError())
+  })
 
   it.skip('should rethrow if loadNoteById throws', async () => {})
 
