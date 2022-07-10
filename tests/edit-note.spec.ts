@@ -1,22 +1,8 @@
 import { mock, MockProxy } from "jest-mock-extended"
-import { Note } from "./note"
 
-namespace LoadNoteByIdRepository {
-  export type Input = { id: string }
-  export type Output = Note | undefined
-}
+import { EditNote, setupEditNote } from "@/edit-note"
+import { LoadNoteByIdRepository } from "@/load-note-by-id-repository"
 
-interface LoadNoteByIdRepository {
-  loadById: (input: LoadNoteByIdRepository.Input) => Promise<LoadNoteByIdRepository.Output>
-}
-
-type Input = { noteId: string, content: string }
-type EditNote = (input: Input) => Promise<void>
-const setupEditNote = (loadNoteByIdRepository: LoadNoteByIdRepository): EditNote => {
-  return async ({ noteId }) => {
-    await loadNoteByIdRepository.loadById({ id: noteId })
-  }
-}
 
 describe('Edit Note', () => {
   let sut: EditNote
