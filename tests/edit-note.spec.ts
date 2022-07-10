@@ -58,7 +58,14 @@ describe('Edit Note', () => {
     expect(updateNoteContentByIdRepository.updateContentById).toHaveBeenCalledTimes(1)
   })
 
-  it.skip('should rethrow if updateNoteContent throws', async () => {})
+  it('should rethrow if updateNoteContent throws', async () => {
+    const error = new Error('any_update_error')
+    updateNoteContentByIdRepository.updateContentById.mockRejectedValueOnce(error)
+
+    const promise = sut({ content, noteId })
+
+    await expect(promise).rejects.toThrow(error)
+  })
 
   it.skip('should return the updated note', async () => {})
 })
