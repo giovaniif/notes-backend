@@ -1,6 +1,6 @@
 import { mock, MockProxy } from "jest-mock-extended"
 
-import { setupLoadNotes, LoadNotes } from '@/load-notes'
+import { setupLoadNotes, LoadNotes } from '@/domain/use-cases/load-notes'
 import { LoadNotesRepository } from '@/load-notes-repository'
 import { Note } from '@/note'
 

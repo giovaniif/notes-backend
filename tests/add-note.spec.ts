@@ -1,6 +1,6 @@
 import { mock, MockProxy } from "jest-mock-extended"
 import { AddNoteRepository } from "@/add-note-repository"
-import { setupAddNote, AddNote } from '@/add-note'
+import { setupAddNote, AddNote } from '@/domain/use-cases/add-note'
 
 describe('Add Note', () => {
   let sut: AddNote
