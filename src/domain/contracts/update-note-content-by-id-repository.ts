@@ -1,4 +1,4 @@
-import { Note } from '@/domain/models' 
+import { Note } from '@/domain/models'
 
 export namespace UpdateNoteContentByIdRepository {
   export type Input = { newContent: string, id: string }

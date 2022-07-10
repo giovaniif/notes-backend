@@ -1,9 +1,8 @@
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { EditNote, setupEditNote } from '@/domain/use-cases'
-import { LoadNoteByIdRepository, UpdateNoteContentByIdRepository  } from '@/domain/contracts'
+import { LoadNoteByIdRepository, UpdateNoteContentByIdRepository } from '@/domain/contracts'
 import { NoteNotFoundError } from '@/domain/errors'
-
 
 describe('Edit Note', () => {
   let sut: EditNote
@@ -39,7 +38,7 @@ describe('Edit Note', () => {
   it('should throw NoteNotFound error if repository returns undefined', async () => {
     loadNoteByIdRepository.loadById.mockResolvedValueOnce(undefined)
 
-    const promise =  sut({ newContent, noteId })
+    const promise = sut({ newContent, noteId })
 
     await expect(promise).rejects.toThrow(new NoteNotFoundError())
   })
