@@ -55,6 +55,19 @@ describe('Update Note Title', () => {
 
     expect(updateNoteTitleByIdRepository.updateTitleById).toHaveBeenCalledWith({ id: noteId, newTitle })
   })
-  it('should rethrow if updateNoteTitleByIdRepository throws', async () => {})
-  it('should return the updated note', async () => {})
+
+  it('should rethrow if updateNoteTitleByIdRepository throws', async () => {
+    const error = new Error('any_load_error')
+    updateNoteTitleByIdRepository.updateTitleById.mockRejectedValueOnce(error)
+
+    const promise = sut({ noteId, newTitle })
+
+    await expect(promise).rejects.toThrow(error)
+  })
+
+  it('should return the updated note', async () => {
+    const note = await sut({ newTitle, noteId })
+
+    expect(note).toEqual({ content, id: noteId, title: newTitle })
+  })
 })
