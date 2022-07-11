@@ -1,12 +1,13 @@
 import { mock, MockProxy } from 'jest-mock-extended'
 
 import { setupUpdateNoteTitle, UpdateNoteTitle } from '@/domain/use-cases/update-note-title'
-import { LoadNoteByIdRepository } from '@/domain/contracts'
+import { LoadNoteByIdRepository, UpdateNoteTitleByIdRepository } from '@/domain/contracts'
 import { NoteNotFoundError } from '@/domain/errors'
 
 describe('Update Note Title', () => {
   let sut: UpdateNoteTitle
   let loadNoteByIdRepository: MockProxy<LoadNoteByIdRepository>
+  let updateNoteTitleByIdRepository: MockProxy<UpdateNoteTitleByIdRepository>
   let noteId: string
   let newTitle: string
   let content: string
@@ -19,10 +20,11 @@ describe('Update Note Title', () => {
     title = 'old_title'
     loadNoteByIdRepository = mock()
     loadNoteByIdRepository.loadById.mockResolvedValue({ id: noteId, content, title })
+    updateNoteTitleByIdRepository = mock()
   })
 
   beforeEach(() => {
-    sut = setupUpdateNoteTitle(loadNoteByIdRepository)
+    sut = setupUpdateNoteTitle(loadNoteByIdRepository, updateNoteTitleByIdRepository)
   })
 
   it('should call loadNoteById with correct id', async () => {
@@ -38,8 +40,21 @@ describe('Update Note Title', () => {
 
     await expect(promise).rejects.toThrow(new NoteNotFoundError())
   })
-  it('should rethrow if loadNoteById throws', async () => {})
-  it('should call updateNoteTitleByIdRepository with correct id and title', async () => {})
+
+  it('should rethrow if loadNoteById throws', async () => {
+    const error = new Error('any_load_error')
+    loadNoteByIdRepository.loadById.mockRejectedValueOnce(error)
+
+    const promise = sut({ noteId, newTitle })
+
+    await expect(promise).rejects.toThrow(error)
+  })
+
+  it('should call updateNoteTitleByIdRepository with correct id and title', async () => {
+    await sut({ noteId, newTitle })
+
+    expect(updateNoteTitleByIdRepository.updateTitleById).toHaveBeenCalledWith({ id: noteId, newTitle })
+  })
   it('should rethrow if updateNoteTitleByIdRepository throws', async () => {})
   it('should return the updated note', async () => {})
 })
