@@ -1,6 +1,6 @@
 import { mock, MockProxy } from 'jest-mock-extended'
 
-import { setupUpdateNoteTitle, UpdateNoteTitle } from '@/domain/use-cases/update-note-title'
+import { setupUpdateNoteTitle, UpdateNoteTitle } from '@/domain/use-cases'
 import { LoadNoteByIdRepository, UpdateNoteTitleByIdRepository } from '@/domain/contracts'
 import { NoteNotFoundError } from '@/domain/errors'
 

@@ -1,3 +1,5 @@
 export * from './add-note'
 export * from './edit-note'
 export * from './load-notes'
+export * from './update-note-title'
+export * from './add-user'
